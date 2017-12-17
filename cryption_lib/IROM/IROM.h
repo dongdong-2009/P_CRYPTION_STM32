@@ -1,0 +1,77 @@
+//******************** (C) COPYRIGHT 2007 STMicroelectronics ********************
+//* File Name          : IROM.h
+//* Author             : Roc Chao
+//*												
+//* Version            : V1.0
+//* Date               : 04/12/2013
+//* Description        : 安全方案
+//********************************************************************************/
+#ifndef __IROM_H__
+#define __IROM_H__
+
+#define FLASH_STARD_ADDR			0x8000000  			//flash基地址
+#define FLASH_ADDR_MASK				0x803ffff			//
+
+#define PNULL						0xffffffff
+#define FLASH_SECTOR_SIZE  			0x800
+#define	FLASH_SECTOR_ADDR_LO		(FLASH_SECTOR_SIZE - 1)//0x1FF	
+#define FLASH_MAX_SIZE				0x3ffff
+#define	FLASH_SECTOR_ADDR_HI		(FLASH_MAX_SIZE - FLASH_SECTOR_ADDR_LO)//0xFE00
+
+#define	REVERSAL_FLAG				0x803a000
+#define	REVERSAL_BUFLEN				REVERSAL_FLAG + 1      
+#define	REVERSAL_BUF				REVERSAL_FLAG + 2      
+#define	TRANS_SEQ_COUNTER			REVERSAL_FLAG + 256	
+
+#define FLASH_ADDR_PBOC_AID_CNT		0x803b000
+#define FLASH_ADDR_PBOC_AID_CNT_LEN	0x01		
+#define FLASH_ADDR_PBOC_AID			(FLASH_ADDR_PBOC_AID_CNT + FLASH_ADDR_PBOC_AID_CNT_LEN)
+
+/*******add by lihuan**********/
+
+#define FLASH_ADDR_FACTORY_TEST	0X803E000   //出厂测试标志
+#define FLASH_ADDR_FACTORY_INIT	0X803E001	//初始化标志
+
+
+/***************************/
+
+
+#define FLASH_ADDR_RTC           	0x803F000
+#define FLASH_ADDR_RTC_LEN        	0x01
+#define FLASH_ADDR_DEVICE_INFO_SAFE_AUTH_NO		(FLASH_ADDR_RTC + FLASH_ADDR_RTC_LEN)
+#define FLASH_ADDR_DEVICE_INFO_SAFE_AUTH_NO_LEN	0x06
+#define FLASH_ADDR_DEVICE_INFO_UP_WEB_NO		(FLASH_ADDR_DEVICE_INFO_SAFE_AUTH_NO + FLASH_ADDR_DEVICE_INFO_SAFE_AUTH_NO_LEN)
+#define FLASH_ADDR_DEVICE_INFO_UP_WEB_NO_LEN	0x05
+#define FLASH_ADDR_DEVICE_INFO_DEV_TYPE			(FLASH_ADDR_DEVICE_INFO_UP_WEB_NO + FLASH_ADDR_DEVICE_INFO_UP_WEB_NO_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_TYPE_LEN		0x08
+#define FLASH_ADDR_DEVICE_INFO_DEV_VER			(FLASH_ADDR_DEVICE_INFO_DEV_TYPE + FLASH_ADDR_DEVICE_INFO_DEV_TYPE_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_VER_LEN		10
+#define FLASH_ADDR_DEVICE_INFO_FIRM_VER			(FLASH_ADDR_DEVICE_INFO_DEV_VER + FLASH_ADDR_DEVICE_INFO_DEV_VER_LEN)
+#define FLASH_ADDR_DEVICE_INFO_FIRM_VER_LEN		10
+#define FLASH_ADDR_DEVICE_INFO_DEV_APP_SRC		(FLASH_ADDR_DEVICE_INFO_FIRM_VER + FLASH_ADDR_DEVICE_INFO_FIRM_VER_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_APP_SRC_LEN	2
+#define FLASH_ADDR_DEVICE_INFO_DEV_APP_VER		(FLASH_ADDR_DEVICE_INFO_DEV_APP_SRC + FLASH_ADDR_DEVICE_INFO_DEV_APP_SRC_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_APP_VER_LEN	6
+#define FLASH_ADDR_DEVICE_INFO_DEV_SN			(FLASH_ADDR_DEVICE_INFO_DEV_APP_VER + FLASH_ADDR_DEVICE_INFO_DEV_APP_VER_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_SN_LEN		24
+#define FLASH_ADDR_DEVICE_INFO_DEV_STA			(FLASH_ADDR_DEVICE_INFO_DEV_SN + FLASH_ADDR_DEVICE_INFO_DEV_SN_LEN)
+#define FLASH_ADDR_DEVICE_INFO_DEV_STA_LEN		8
+#define FLASH_ADDR_DEVICE_INFO_MAX  			(6 + 5 + 8 + 10 + 10 + 2 + 6 + 24 + 8)
+
+//#define BOOTLOADER_FLAG_ADDR		0x8003f03
+#define BOOTLOADER_FLAG_ADDR		0x08005E00+0x10
+#define BOOTLOADER_FLAG_ADDR_LEN		1 
+
+#define BOOTLOADER_LEN_OF_FILE_ADDR 	(BOOTLOADER_FLAG_ADDR + BOOTLOADER_FLAG_ADDR_LEN)	//3
+#define BOOTLOADER_LEN_OF_FILE_ADDR_LEN		4	//3
+
+#define SPI_FLASH_FIRMWARE_ADDR	   	0x00100000		//外接SPI FLASH写入地址
+
+void IROM_Write(unsigned int uiFlashAddr, unsigned char* pucDataBuff, unsigned int uiLen);
+
+void IROM_Read(unsigned int uiFlashAddr, unsigned char* pucDataBuff, unsigned int uiLen);
+
+void IROM_Erase(unsigned int uiFlashAddr, unsigned int uiLen);
+
+#endif
+/********************************end fo file *************************************/
